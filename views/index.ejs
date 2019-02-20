@@ -29,34 +29,43 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
 	
-		<div id="root"></div>
-		  <div class="card" style="width: 18rem;">
-		  <h5 class="card-title-max">What do the pro's use?</h5>
-		  <img src="%PUBLIC_URL%/images/octane.jpg" class="card-img-top" alt="Octane">
-		  <div class="card-body">
-		<h5 class="card-title">Card title</h5>
-		<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-	  </div>
-	  <img src="%PUBLIC_URL%/images/batmobile.jpg" class="card-img-top" alt="Batmobile">
-	  <div class="card-body">
-		<h5 class="card-title">Card title</h5>
-		<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-	  </div>
-	  <img src="%PUBLIC_URL%/images/dominus.jpg" class="card-img-top" alt="Dominus">
-	  <div class="card-body">
-		<h5 class="card-title">Card title</h5>
-		<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-	  </div>
-	 
-		</div>
-	<form action="/cars" method="POST">
-	  <div class="form-group">
-		<label for="addCar">Car Name</label>
-		<input type="text" class="form-control" id="inputCar" aria-describedby="carHelp" placeholder="Enter car" name="carInput">
-		<small id="carHelp" class="form-text text-muted">Enter the name of the Rocket League car you would like to add.</small>
-	  </div>
-	  <div class="form-group">
-		<label for="addCarDescription">Car Description</label>
+	<ul class="cars">
+      <% for(var i=0; i<cars.length; i++) {%>
+      <li class="form-group">
+        <span><%= cars[i].carsInput %></span>
+        <span><%= cars[i].descriptionInput %></span>
+      </li>
+      <% } %>
+    </ul>
+  
+    <div id="root"></div>
+	  <div class="card" style="width: 18rem;">
+	  <h5 class="card-title-max">What do the pro's use?</h5>
+      <img src="%PUBLIC_URL%/images/octane.jpg" class="card-img-top" alt="Octane">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+      <img src="%PUBLIC_URL%/images/batmobile.jpg" class="card-img-top" alt="Batmobile">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+      <img src="%PUBLIC_URL%/images/dominus.jpg" class="card-img-top" alt="Dominus">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+    </div>
+	
+    <form action="/cars" method="POST">
+      <div class="form-group">
+        <label for="addCar">Car Name</label>
+        <input type="text" class="form-control" id="inputCar" aria-describedby="carHelp" placeholder="Enter car" name="carsInput">
+        <small id="carHelp" class="form-text text-muted">Enter the name of the Rocket League car you would like to add.</small>
+      </div>
+      <div class="form-group">
+        <label for="addCarDescription">Car Description</label>
 		<input type="text" class="form-control" id="inputCarDescription" aria-describedby="carDescriptionHelp" placeholder="Enter description" name="descriptionInput">
 		<small id="carDescriptionHelp" class="form-text text-muted">Enter the description of the Rocket League car you would like to add.</small>
 	  </div>
