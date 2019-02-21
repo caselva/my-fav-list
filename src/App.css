@@ -1,13 +1,12 @@
-header {
+nav {
 	display: block;
 	width: 100%;
-	background: #000080;
+	background-color: #000080;
 	color: #ffffff;
 	padding-left: 40px;
 	font-family: 'ZCOOL QingKe HuangYou', cursive;
 }
 
-body {
-	
+.headerFontColor * {
+	color: #000000 !important;
 }
-	
