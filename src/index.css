@@ -8,3 +8,32 @@
 	  padding: 10px 10px 10px 10px;
 }
 */
+
+.button {
+	  border-radius: 0 !important;
+}
+
+/* Style the search box inside the navigation bar */
+.topnav input[type=text] {
+  float: right;
+  padding: 6px;
+  border: none;
+  margin-top: 8px;
+  margin-right: 16px;
+  font-size: 17px;
+}
+
+.modalHeader {
+	text-align: center;
+}
+
+div.cardBody{
+  padding: 10px;
+}
+
+.carSearch{
+	position: absolute;
+	right: 40px;
+	top: 150px;
+	width: 250px;
+}

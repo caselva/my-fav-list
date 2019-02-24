@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
 	// Brings in row and column for flex responsive grid.
+	Modal, ModalHeader, ModalBody, ModalFooter,
 	Row,
 	Col,
 	// Reactstrap button.
@@ -23,15 +24,36 @@ import axios from "axios";
 
 class Homepage extends Component
 {
-	state = {
-		data: [],
+	constructor(props) {
+    super(props);
+    this.state = {
+      modal: false,
+      backdrop: true,
+	  data: [],
 		id: 0,
 		message: null,
 		intervalIsSet: false,
 		idToDelete: null,
 		idToUpdate: null,
 		objectToUpdate: null
-	};
+    };
+	this.toggle = this.toggle.bind(this);
+    this.changeBackdrop = this.changeBackdrop.bind(this);
+  }
+  
+  toggle() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  }
+
+  changeBackdrop(e) {
+    let value = e.target.value;
+    if (value !== 'static') {
+      value = JSON.parse(value);
+    }
+    this.setState({ backdrop: value });
+  }
 
 	// when component mounts, first thing it does is fetch all existing data in our db
 	// then we incorporate a polling logic so that we can easily see if our db has 
@@ -123,13 +145,22 @@ class Homepage extends Component
 		const { data } = this.state;
 		// console.log( data );
 		return (
-			<div className="container-fluid">
-				<br alt="THIS IS GROSS REMOVE THIS AND REPLACE WITH CSS." />
-			    <Row>
-					<Col xs="12" md="4" lg="3">
+		<div>
+        <Form inline onSubmit={(e) => e.preventDefault()}>
+          <Button color="secondary" size="lg" className="button" id="button" onClick={this.toggle} block>{this.props.buttonLabel}Modify Records</Button>
+        </Form>
+		<Form>
+        <FormGroup>
+          <Input type="text" className="carSearch" id="carSearch" placeholder="with a placeholder" />
+        </FormGroup>
+		</Form>
+        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className} backdrop={this.state.backdrop}>
+          <ModalHeader toggle={this.toggle}>Record Modification Form</ModalHeader>
+				<ModalBody>
+					<div className="cardBody">
 						<Card body>
 							<CardTitle>
-								<h4>Add A Car</h4>
+								<h5>Add A Car</h5>
 							</CardTitle>
 							<CardText>Add a car to the list.</CardText>
 							<hr />
@@ -142,54 +173,74 @@ class Homepage extends Component
 									<Label for="rlCarDesc">Car Description</Label>
 									<Input type="text" name="rlCarDesc" id="rlCarDesc" placeholder="Enter Car Description" />
 								</FormGroup>
-								<Button>Submit</Button>
-							</Form>
-							
-							<div>
-								<div style={{ padding: "10px" }}>
-									<input
-										type="text"
+								<FormGroup>
+									<Label for="rlCarDesc2">Description of Car</Label>
+									<Input
+										type="text" name="rlCarDesc2" id="rlCarDesc2"
 										onChange={e => this.setState({ message: e.target.value })}
 										placeholder="Description of Car"
-										style={{ width: "200px" }}
 									/>
-									<button onClick={() => this.putDataToDB(this.state.message)}>
+								</FormGroup>
+								<Button onClick={() => this.putDataToDB(this.state.message)}>
 										ADD
-									</button>
-								</div>
+									</Button>
+							</Form>
+						</Card>
+					</div>
+					<div className="cardBody">
+						<Card body>
+							<CardTitle>
+								<h5>Delete A Car</h5>
+							</CardTitle>
+							<CardText>Delete a car from the list.</CardText>
+							<hr />
+							<div>
 									<div style={{ padding: "10px" }}>
-									<input
+									<Input
 										type="text"
-										style={{ width: "200px" }}
 										onChange={e => this.setState({ idToDelete: e.target.value })}
 										placeholder="put id of item to delete here"
 									/>
-									<button onClick={() => this.deleteFromDB(this.state.idToDelete)}>
+									<Button onClick={() => this.deleteFromDB(this.state.idToDelete)}>
 										DELETE
-									</button>
-								</div>
-								<div style={{ padding: "10px" }}>
-									<input
-										type="text"
-										style={{ width: "200px" }}
-										onChange={e => this.setState({ idToUpdate: e.target.value })}
-										placeholder="id of item to update here"
-									/>
-									<input
-										type="text"
-										style={{ width: "200px" }}
-										onChange={e => this.setState({ updateToApply: e.target.value })}
-										placeholder="put new value of the item here"
-									/>
-									<button
-										onClick={() => this.updateDB(this.state.idToUpdate, this.state.updateToApply) }
-									>
-										UPDATE
-									</button>
+									</Button>
 								</div>
 							</div>
 						</Card>
-					</Col>
+					</div>
+					<div className="cardBody">
+						<Card body>
+							<CardTitle>
+								<h5>Update A Car</h5>
+							</CardTitle>
+							<CardText>Update a car on the list.</CardText>
+							<hr />
+							<div>
+								<div style={{ padding: "10px" }}>
+									<Input
+										type="text"
+										onChange={e => this.setState({ idToUpdate: e.target.value })}
+										placeholder="id of item to update here"
+									/>
+									<Input
+										type="text"
+										onChange={e => this.setState({ updateToApply: e.target.value })}
+										placeholder="put new value of the item here"
+									/>
+									<Button
+										onClick={() => this.updateDB(this.state.idToUpdate, this.state.updateToApply) }
+									>
+										UPDATE
+									</Button>
+								</div>
+							</div>
+						</Card>
+					</div>
+				</ModalBody>
+        </Modal>
+			<div className="container-fluid">
+				<br alt="THIS IS GROSS REMOVE THIS AND REPLACE WITH CSS." />
+			    <Row>
 					<Col xs="12" md="8" lg="9">
 						<CardColumns>
 							{data.length <= 0
@@ -210,6 +261,7 @@ class Homepage extends Component
 					<Col xs="12">
 					</Col>
 				</Row>
+			</div>
 			</div>
 		);
 	}

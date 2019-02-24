@@ -10,3 +10,7 @@ nav {
 .headerFontColor * {
 	color: #000000 !important;
 }
+
+body {
+  background-color: #404040
+}
